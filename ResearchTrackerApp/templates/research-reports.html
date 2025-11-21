@@ -1,0 +1,414 @@
+{% extends 'index.html'%} {% load static%} {% block title%} Research Tracker |
+Reports {% endblock %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div></div>
+  <div
+    class="d-flex justify-content-between align-items-center gap-3 mb-1 mt-0"
+  >
+    {% csrf_token %}
+    <select
+      id="pdfSelector"
+      class="form-control border border-2 mx-1 border-success"
+      aria-label="Default select"
+    >
+      <option selected>Generate PDF Reports</option>
+      <option value="1">Research Ongoing</option>
+      <option value="2">Research Conducted</option>
+      <option value="3">Research Presented</option>
+      <option value="4">Research Published</option>
+      <option value="5">All Research</option>
+    </select>
+    <a id="generateLink" href=""
+      ><button
+        type="submit"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#customerModal"
+        onclick="generatePdf()"
+      >
+        Generate
+      </button></a
+    >
+  </div>
+</div>
+<div class="row">
+    
+    <div class="col-xl-3">
+        <div class="card card-default shadow">
+          <div class="card-header">
+            <h2>On-going</h2>
+          </div>
+          <div class="card-body pt-3 pb-4">
+            <div class="circle circle-lg"
+              data-size="150"
+              data-value="
+                {% if ongoing_rounded%}
+                {{ongoing_rounded}}
+                {%else%}
+                0
+                {%endif %}"
+              data-thickness="15"
+              data-fill="{
+                &quot;color&quot;: &quot;#fd5190&quot;
+              }">
+              <div class="circle-content">
+                <h4 class="text-uppercase font-weight-bold">
+                  {% if ongoing_percentage%}
+                  {{ongoing_percentage}}%
+                  {%else%}
+                  0%
+                  {%endif %}
+                </h4>
+    
+                <strong></strong>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3">
+        <div class="card card-default shadow">
+          <div class="card-header">
+            <h2>Conducted</h2>
+          </div>
+    
+          <div class="card-body pt-3 pb-4">
+            <div class="circle circle-lg"
+              data-size="150"
+              data-value="
+                  {% if conducted_rounded%}
+                  {{conducted_rounded}}
+                  {%else%}
+                  0
+                  {%endif %}"
+              data-thickness="15"
+              data-fill="{
+                &quot;color&quot;: &quot;#0acb8e&quot;
+              }">
+              <div class="circle-content">
+                <h4 class="text-uppercase font-weight-bold">
+                  {% if conducted_percentage%}
+                  {{conducted_percentage}}%
+                  {%else%}
+                  0%
+                  {%endif %}</h4>
+    
+                <strong></strong>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3">
+        <div class="card card-default shadow">
+          <div class="card-header">
+            <h2>Presented</h2>
+          </div>
+    
+          <div class="card-body pt-3 pb-4">
+            <div class="circle circle-lg"
+              data-size="150"
+              data-value="
+                  {% if presented_rounded%}
+                  {{presented_rounded}}
+                  {%else%}
+                  0
+                  {%endif %}"
+              data-thickness="15"
+              data-fill="{
+                &quot;color&quot;: &quot;#9e6de0&quot;
+              }">
+              <div class="circle-content">
+                <h4 class="text-uppercase font-weight-bold">
+                  {% if presented_percentage%}
+                  {{presented_percentage}}%
+                  {%else%}
+                  0%
+                  {%endif %}
+                </h4>
+    
+                <strong></strong>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3">
+        <div class="card card-default shadow">
+          <div class="card-header">
+            <h2>Published</h2>
+          </div>
+    
+          <div class="card-body pt-3 pb-4">
+            <div class="circle circle-lg"
+              data-size="150"
+              data-value="
+                  {% if published_rounded%}
+                  {{published_rounded}}
+                  {%else%}
+                  0
+                  {%endif %}"
+              data-thickness="15"
+              data-fill="{
+                &quot;color&quot;: &quot;#04c7e0&quot;
+              }"
+              >
+              <div class="circle-content">
+                <h4 class="text-uppercase font-weight-bold">
+                  {% if published_percentage%}
+                  {{published_percentage}}%
+                  {%else%}
+                  0%
+                  {%endif %}
+                </h4>
+    
+                <strong></strong>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row mb-6">
+    <div class="col-xl-8">
+      <!-- Income and Express -->
+      <div class="card card-default shadow h-100">
+        <div class="card-header">
+          <h2>A Month Overview of Research</h2>
+        
+        </div>
+        <div class="card-body">
+          <div class="chart-wrapper">
+            <div id="mixed-chart-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <!-- Current Users  -->
+      <div class="card card-default shadow h-100">
+        <div class="card-header">
+          <h2>Current Researches</h2>
+          <p class="fw-bold text-success h2">{{total_research_count}}</p>
+        </div>
+        <div class="card-body">
+          <div id="donut-chart-1"></div>
+          <div class="d-flex align-items-center justify-content-around mt-4">
+            <div class="d-flex flex-column">
+              <span class="h5"
+                ><i class="mdi mdi-circle text-secondary"></i>Ongoing</span
+              >
+              <span class="h5"
+                ><i class="mdi mdi-circle text-primary"></i>Presented</span
+              >
+            </div>
+            <div class="d-flex flex-column">
+              <span class="h5"
+                ><i class="mdi mdi-circle text-success"></i>Conducted</span
+              >
+              <span class="h5"
+                ><i class="mdi mdi-circle text-info"></i>Published</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+
+<!-- Link for ApexCharts.js -->
+<script src="{% static 'plugins/apexcharts/apexcharts.js'%}"></script>
+
+<!-- Script for generating pdf base on selected input -->
+<script>
+  function generatePdf() {
+
+    var selectedOption = document.getElementById("pdfSelector").value;
+
+    var baseUrl = '{% url "research_reports" %}';
+
+    if (selectedOption == "1") {
+      document.getElementById("generateLink").href =
+        '{% url "ongoing_pdf" %}';
+    } else if (selectedOption == "2") {
+      document.getElementById("generateLink").href =
+        '{% url "conducted_pdf" %}';
+    } else if (selectedOption == "3") {
+      document.getElementById("generateLink").href =
+        '{% url "presented_pdf" %}';
+    } else if (selectedOption == "4") {
+      document.getElementById("generateLink").href =
+        '{% url "published_pdf" %}';
+      
+    } else if (selectedOption == "5") {
+      document.getElementById("generateLink").href =
+        '{% url "all_research_pdf" %}'; 
+    }
+    else {
+      document.getElementById("generateLink").href = baseUrl;
+    }
+  }
+</script>
+
+<!-- bar chart -->
+<script>
+  // fetch data from back end
+  const research_data = JSON.parse("{{research_data_json|escapejs}}");
+  const mixedChart1 = document.querySelector("#mixed-chart-1");
+
+  const labelss = research_data.labels.reverse();
+
+  if (mixedChart1 !== null) {
+    var mixedOptions1 = {
+      chart: {
+        height: 370,
+        type: "bar",
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: ["#fd5190", "#0acb8e", "#9e6de0", "#04c7e0"],
+      legend: {
+        show: true,
+        position: "top",
+        horizontalAlign: "right",
+        markers: {
+          width: 20,
+          height: 5,
+          radius: 0,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "50%",
+          barHeight: "10%",
+          distributed: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+
+      stroke: {
+        show: true,
+        width: 2,
+        curve: "smooth",
+      },
+
+      series: [
+        {
+          name: "On-Going",
+          type: "column",
+          data: research_data.ongoing,
+        },
+        {
+          name: "Conducted",
+          type: "column",
+          data: research_data.conducted,
+        },
+        {
+          name: "Presented",
+          data: research_data.presented,
+          type: "column",
+        },
+        {
+          name: "Published",
+          data: research_data.published,
+          type: "column",
+        },
+      ],
+
+      xaxis: {
+        categories: labelss,
+
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        crosshairs: {
+          width: 40,
+        },
+      },
+
+      fill: {
+        opacity: 1,
+      },
+
+      tooltip: {
+        shared: true,
+        intersect: false,
+        followCursor: true,
+        fixed: {
+          enabled: false,
+        },
+        x: {
+          show: false,
+        },
+        y: {
+          title: {
+            formatter: function (seriesName) {
+              return seriesName;
+            },
+          },
+        },
+      },
+    };
+
+    var randerMixedChart1 = new ApexCharts(mixedChart1, mixedOptions1);
+    randerMixedChart1.render();
+  }
+</script>
+
+<!-- donut chart -->
+<script>
+ 
+  const research_json = JSON.parse("{{research_json|escapejs}}");
+  console.log(research_json)
+
+
+  const donutChart1 = document.querySelector("#donut-chart-1");
+  if (donutChart1 !== null) {
+    var donutChartOptions1 = {
+      chart: {
+        type: "donut",
+        height: 270,
+      },
+
+      colors: ["#fd5190", "#0acb8e", "#9e6de0", "#04c7e0"],
+      labels: ["On-Going", "Conducted", "Presented", "Published"],
+      series: [
+      research_json.ongoing_count,
+      research_json.conducted_count,
+      research_json.presented_count,
+      research_json.published_count,
+      ],
+      legend: {
+        show: false,
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      tooltip: {
+        y: {
+          formatter: function (val) {
+            return +val + "";
+          },
+        },
+      },
+    };
+
+    var randerDonutchart1 = new ApexCharts(donutChart1, donutChartOptions1);
+
+    randerDonutchart1.render();
+  }
+</script>
+
+{%endblock%}

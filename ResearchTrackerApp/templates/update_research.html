@@ -1,0 +1,628 @@
+{% extends 'index.html'%} {% load static%} {% block title%} Research Tracker |
+Update Research {% endblock %} {% block content %}
+
+<div class="shadow">
+  <!-- Research Information -->
+  <div class="card card-default">
+    <div class="card-body">
+      <!-- progress -->
+      <ul class="step-wizard-list">
+        <li class="step-wizard-item">
+          <div
+            id="ongoing"
+            class="progress-count bg-outline-success text-success"
+          >
+            <span class="mdi mdi-sync"></span>
+          </div>
+          <span id="ongoing-label" class="progress-label">On-going</span>
+        </li>
+        <li class="step-wizard-item">
+          <div
+            id="conducted"
+            class="progress-count bg-outline-success text-success"
+          >
+            <span class="mdi mdi-trophy"></span>
+          </div>
+          <span id="conducted-label" class="progress-label">Conducted</span>
+        </li>
+        <li class="step-wizard-item">
+          <divv
+            id="presented"
+            class="progress-count bg-outline-success text-success"
+            ><span class="mdi mdi-presentation"></span
+          ></divv>
+          <span id="presented-label" class="progress-label">Presented</span>
+        </li>
+        <li class="step-wizard-item">
+          <div
+            id="published"
+            class="progress-count bg-outline-success text-success"
+          >
+            <span class="mdi mdi-earth"></span>
+          </div>
+          <span id="published-label" class="progress-label">Published</span>
+        </li>
+      </ul>
+      <form>
+        <h4 class="mb-5">Research Information</h4>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <p class="h6" for="">Research Title</p>
+              <input
+                value="{{research.Research_Title}}"
+                type="text"
+                class="form-control"
+                id="firstName"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <p class="h6" for="lastName">College</p>
+              <input
+                value="{{research.College}}"
+                type="text"
+                class="form-control"
+                id="lastName"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <p class="h6" for="lastName">Year</p>
+              <input
+                value="{{research.Year}}"
+                type="text"
+                class="form-control"
+                id="lastName"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+
+        <h4 class="mb-5 mt-3">Dates</h4>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <p class="h6" for="lastName">Date Started</p>
+              <input
+                value="{{research.Date_Started}}"
+                type="text"
+                class="form-control"
+                id="lastName"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <p class="h6" for="lastName">Date Ended</p>
+              <input
+                value="{{research.Date_Ended}}"
+                type="text"
+                class="form-control"
+                id="lastName"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <p class="h6" for="lastName">Status</p>
+              <input
+                value="{{research.Status}}"
+                type="text"
+                class="form-control"
+                id="research-status"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <p class="h6" for="lastName">Date Ongoing</p>
+              <input
+                value="{{research.Date_Ongoing}}"
+                type="text"
+                class="form-control"
+                id="lastName"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <p class="h6" for="lastName">Date Conducted</p>
+              <input
+                value="{{research.Date_Conducted}}"
+                type="text"
+                class="form-control"
+                id="lastName"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <p class="h6" for="lastName">Date Presented</p>
+              <input
+                value="{{research.Date_Presented}}"
+                type="text"
+                class="form-control"
+                id="lastName"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+
+        {%if research.Status == 'Published'%}
+        <div class="div" id="published">
+          <h4 class="mb-5 mt-3">Published Information</h4>
+
+          <div class="div row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <p class="h6" for="lastName">ISPN No.</p>
+                <input
+                  value="{{research.ispnNo}}"
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <p class="h6" for="lastName">Publisher Name</p>
+                <input
+                  value="{{research.Publisher_Name}}"
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <p class="h6" for="lastName">Date Published</p>
+                <input
+                  value="{{research.Date_Published}}"
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <p class="h6" for="lastName">Type of Journal</p>
+                <input
+                  value="{{research.Journal_Type}}"
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <p class="h6" for="lastName">Journal Index</p>
+                <input
+                  value="{{research.Journal_Index}}"
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <p class="h6" for="lastName">Author</p>
+                <input
+                  value="{{research.Author}}"
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endif%} {% if research.Status == 'Published'%} {% else%}
+        <div class="d-flex justify-content-end mt-6">
+          <button
+            type="button"
+            class="btn btn-success mb-2 btn-pill"
+            data-toggle="modal"
+            data-target="#modal-update-research"
+          >
+            Update Now
+          </button>
+        </div>
+        {%endif%}
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Update Research Modal -->
+<div
+  class="modal fade"
+  id="modal-update-research"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-fullscreen-sm-down" role="document">
+    <div class="modal-content modal-dialog-scrollable">
+      <div class="modal-header px-6">
+        <h4 class="modal-title" id="exampleModalCenterTitle">
+          Update Research
+        </h4>
+      </div>
+
+      <div class="modal-body px-6">
+        <form action="" method="POST">
+          {% if form.errors %}
+          <div class="alert alert-danger">
+            <ul>
+              {% for field, error_list in form.errors.items %} {% for error in
+              error_list %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %} {% csrf_token %}
+          <div id="modal-body modal-fullscreen-sm-down">
+            {% if research.Status == 'Published'%}
+            <div class="alert alert-warning">
+              This research is already published and does not require an update.
+            </div>
+            {% else %}
+
+            <!-- {{form.as_p}} -->
+            <div class="dropdown">
+              <select class="form-control" id="statusSelect" name="status">
+                <option selected disabled>Select Status</option>
+                {% if research.Status == 'Ongoing' %}
+                <option value="On-going" style="display: none">On-going</option>
+                <option value="Conducted" style="display: auto">
+                  Conducted
+                </option>
+                <option value="Presented" style="display: auto">
+                  Presented
+                </option>
+                <option value="Published" style="display: auto">
+                  Published
+                </option>
+                {% endif %} {% if research.Status == 'Conducted' %}
+                <option value="On-going" style="display: none">On-going</option>
+                <option value="Conducted" style="display: none">
+                  Conducted
+                </option>
+                <option value="Presented" style="display: auto">
+                  Presented
+                </option>
+                <option value="Published" style="display: auto">
+                  Published
+                </option>
+                {% endif %} {% if research.Status == 'Presented' %}
+                <option value="On-going" style="display: none">On-going</option>
+                <option value="Conducted" style="display: none">
+                  Conducted
+                </option>
+                <option value="Presented" style="display: none">
+                  Presented
+                </option>
+                <option value="Published" style="display: auto">
+                  Published
+                </option>
+                {% endif %}
+              </select>
+            </div>
+            <label id="date_label" class="mt-4 ms-4 "></label>
+            <div id="presented" class="">
+              <input
+                class="ms-4 update-date  form-control"
+                type="date"
+                id="date_Presented"
+                name="date_Presented"
+              />
+            </div>
+            <div id="conducted" class="">
+              <input
+                class="ms-4 update-date  form-control"
+                type="date"
+                id="date_Conducted"
+                name="date_Conducted"
+              />
+            </div>
+            <div id="ongoing" class="">
+              <input
+                class="update-date  ms-4 form-control"
+                type="date"
+                id="date_Ongoing"
+                name="date_Ongoing"
+              />
+            </div>
+            <div class="row">
+              <div class="col-md-2 pub-field" id="ispnNo">
+                <label for="" class="form-label fw-semibold">ISPN No.</label>
+                <input
+                  class="ms-4 form-control"
+                  type="text"
+                  id="ispn_No"
+                  name="ispn_No"
+                />
+              </div>
+
+              <div class="col-md-6 pub-field" id="publisherName">
+                <label for="" class="form-label fw-semibold"
+                  >Publisher Name</label
+                >
+                <input
+                  class="ms-4 form-control"
+                  type="text"
+                  id="publisher_Name"
+                  name="publisher_Name"
+                />
+              </div>
+
+              <div class="col-md-4 pub-field" id="date_Published">
+                <label for="datePublished" class="form-label fw-semibold"
+                  >Date Published</label
+                >
+                <input
+                  class="ms-4 form-control "
+                  type="date"
+                  id="date_Published"
+                  name="date_Published"
+                />
+              </div>
+
+              <div class="col-md-6 pub-field" id="journalType">
+                <label for="" class="form-label fw-semibold"
+                  >Type of Journal</label
+                >
+                <select
+                  class="form-control"
+                  id="Journal_Type"
+                  name="Journal_Type"
+                >
+                  <option selected disabled>
+                    Select Select Type of Journal
+                  </option>
+                  <option value="International">International</option>
+                  <option value="National">National</option>
+                  <option value="Local">Local</option>
+                </select>
+              </div>
+
+              <div class="col-md-6" id="journalIndex">
+                <label for="" class="form-label fw-semibold"
+                  >Journal Index</label
+                >
+                <input
+                  class="ms-4 form-control"
+                  type="text"
+                  id="journal_Index"
+                  name="journal_Index"
+                />
+              </div>
+            </div>
+            {% endif%}
+          </div>
+
+          <div class="modal-footer">
+            {% if research.Status == 'Published'%}
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            {% else %}
+            <button
+              type="button"
+              class="btn btn-smoke btn-pill"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <input
+              type="submit"
+              value="Save Changes"
+              class="btn btn-success btn-pill"
+            />
+            {% endif%}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          Update Research Details
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="" method="POST">
+        {% if form.errors %}
+        <div class="alert alert-danger">
+          <ul>
+            {% for field, error_list in form.errors.items %} {% for error in
+            error_list %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %} {% csrf_token %}
+        <div id="modal-body modal-fullscreen-sm-down">
+          {% if research.Status == 'Published'%}
+          <div class="alert alert-warning">
+            This research is already published and does not require an update.
+          </div>
+          {% else %}
+
+          <!-- {{form.as_p}} -->
+          <div class="dropdown mx-3">
+            <select class="form-select" id="statusSelect" name="status">
+              <option selected disabled>Select Status</option>
+              {% if research.Status == 'Presented' %}
+              <option value="Presented" style="display: none">Presented</option>
+              <option value="On-going" style="display: auto">On-going</option>
+              <option value="Conducted" style="display: auto">Conducted</option>
+              <option value="Published" style="display: auto">Published</option>
+              {% endif %} {% if research.Status == 'On-going' %}
+              <option value="Presented" style="display: none">Presented</option>
+              <option value="On-going" style="display: none">On-going</option>
+              <option value="Conducted" style="display: auto">Conducted</option>
+              <option value="Published" style="display: auto">Published</option>
+              {% endif %} {% if research.Status == 'Conducted' %}
+              <option value="Presented" style="display: none">Presented</option>
+              <option value="On-going" style="display: none">On-going</option>
+              <option value="Conducted" style="display: none">Conducted</option>
+              <option value="Published" style="display: auto">Published</option>
+              {% endif %}
+            </select>
+          </div>
+          <p class="mt-4 ms-4">Date</p>
+          <div id="presented" class="date-field">
+            <input
+              class="ms-4 update-date"
+              type="date"
+              id="date_Presented"
+              name="date_Presented"
+            />
+          </div>
+          <div id="conducted" class="date-field">
+            <input
+              class="ms-4 update-date"
+              type="date"
+              id="date_Conducted"
+              name="date_Conducted"
+            />
+          </div>
+          <div id="ongoing" class="date-field">
+            <input
+              class="update-date ms-4"
+              type="date"
+              id="date_Ongoing"
+              name="date_Ongoing"
+            />
+          </div>
+          <div id="published" class="date-field">
+            <input
+              class="ms-4 update-date"
+              type="date"
+              id="date_Published"
+              name="date_Published"
+            />
+          </div>
+          {% endif%}
+        </div>
+        <div class="modal-footer">
+          {% if research.Status == 'Published'%}
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          {% else %}
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <input type="submit" value="Save Changes" class="btn btn-success" />
+          {% endif%}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- script for progress track -->
+<script>
+  const research_status = document.querySelector("#research-status").value;
+  const progressItems = ["ongoing", "conducted", "presented", "published"];
+
+  for (const item of progressItems) {
+    const element = document.querySelector(`#${item}`);
+    const label = document.querySelector(`#${item}-label`);
+
+    element.classList.remove("bg-outline-success", "text-success");
+    element.classList.add("active-item");
+    label.classList.remove("progress-label");
+    label.classList.add("active");
+    if (research_status === item.charAt(0).toUpperCase() + item.slice(1)) {
+      break;
+    }
+  }
+</script>
+
+<!-- Javascript code to handle the Research Form     -->
+<script src="{% static 'js/handle_status_field.js'%}"></script>
+
+<!-- <script src="{% static 'bootstrap/bootstrap.min.js'%}"></script> -->
+<script src="{%static 'js/jquery-3.7.1.min.js'%}"></script>
+<script src="{%static 'js/live-search.js'%}" defer></script>
+
+{% endblock %} {% block script%}
+<script src="{%static 'js/jquery-3.7.1.min.js'%}"></script>
+<script src="{% static 'js/live-search.js'%}" defer></script>
+<script src="{% static 'bootstrap/bootstrap.min.js'%}"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>  -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock%}

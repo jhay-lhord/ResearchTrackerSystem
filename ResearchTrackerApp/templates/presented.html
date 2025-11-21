@@ -1,0 +1,293 @@
+{% extends 'index.html'%} {% load static%} {% block title%} Research Tracker |
+Presented {% endblock %} {% block content%}
+
+<div class="row">
+ 
+  <!-- First box -->
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-default py-4 shadow">
+      <div class="d-flex p-5 justify-content-between">
+        <div class="icon-md bg-secondary rounded-circle mr-3">
+          <i class="mdi mdi-sync"></i>
+        </div>
+        <a class="text-gray-dark" href="{% url 'ongoing'%}">
+        <div class="text-right">
+          <span
+            class="h2 d-block text-success"
+            id="research_ongoing_count"
+          >
+            {{research_data_as_of_today.research_ongoing_count}}</span
+          >
+          <p class="">Ongoing</p>
+        </div>
+      </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second box -->
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-default py-4 shadow">
+      <div class="d-flex p-5 justify-content-between">
+        <div class="icon-md bg-success rounded-circle mr-3">
+          <i class="mdi mdi-trophy"></i>
+        </div>
+        <a class="text-gray-dark" href="{% url 'conducted'%}">
+          <div class="text-right">
+            <span
+              class="h2 d-block text-success"
+              id="research_conducted_count"
+            >
+              {{research_data_as_of_today.research_conducted_count}}</span
+            >
+            <p class="">Conducted</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Third box -->
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-default py-4 shadow">
+      <div class="d-flex p-5 justify-content-between">
+        <div class="icon-md bg-primary rounded-circle mr-3">
+          <i class="mdi mdi-presentation"></i>
+        </div>
+        <a class="text-gray-dark" href="{% url 'presented'%}">
+          <div class="text-right">
+            <span
+              class="h2 d-block text-success"
+              id="research_presented_count"
+            >
+              {{research_data_as_of_today.research_presented_count}}</span
+            >
+            <p class="">Presented</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fourth box -->
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-default py-4 shadow">
+      <div class="d-flex p-5 justify-content-between">
+        <div class="icon-md bg-info rounded-circle mr-3">
+          <i class="mdi mdi-earth"></i>
+        </div>
+        <a class="text-gray-dark" href="{% url 'published'%}">
+          <div class="text-right">
+            <span
+              class="h2 d-block text-success"
+              id="research_published_count"
+            >
+              {{research_data_as_of_today.research_published_count}}</span
+            >
+            <p class="">Published</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card card-default shadow">
+      <div class="card-header align-items-center">
+        <h2 class="fw-bold">All Research Presented</h2>
+        <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add-research"> Add Research -->
+        <!-- </button> -->
+        
+      </div>
+      <div class="card-body">
+        <table
+          id="researchTable"
+          class="table table-hover table-product"
+          style="width: 100%"
+        >
+          <thead>
+            <tr>
+              <th>Research ID </th>
+              <th>research Title</th>
+              <th>Author</th>
+              <th>Status</th>
+              <th>Date Updated</th>
+              <th>Action</th>
+              <th>File</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for research in presented_result %}
+            <tr>
+              <td class="fs-7">{{research.Research_ID}}</td>
+              <td class="fs-7">{{research.Research_Title}}</td>
+              <td class="fs-7">{{research.Author}}</td>
+              <td class="fs-7">{{research.Status}}</td>
+              <td class="fs-7">{{research.updated_at}}</td>
+              <td class="fs-7">
+                <a href="{{research.updateUrl}}">
+                  <button type="button" class="btn btn-success btn-sm">View</button>
+                </a>
+              </td>
+              <td class="fs-7">
+                {% if not research.Document_File%}
+                <a href="#">
+                  <button
+                    data-research-id="{{research.Research_ID}}"
+                    data-toggle="modal"
+                    data-target="#upload_modal"
+                    type="button"
+                    class="btn btn-smoke btn-sm"
+                    id="upload-btn"
+                  >
+                    Upload
+                  </button>
+                </a>
+                {% else %}
+                <a href="#" class="delete-research-link">
+                  <button
+                    data-research-id="{{research.Research_ID}}"
+                    data-toggle="modal"
+                    data-target="#delete_modal"
+                    type="button"
+                    class="btn btn-outline-danger btn-sm delete-research-link"
+                  >
+                    Delete
+                  </button>
+                </a>
+                {% endif %}
+              </td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- deleting modal -->
+<div
+  class="modal fade"
+  id="delete_modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <span class="mdi mdi-alert-circle text-danger"></span> Confirm
+          Deletion
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this file?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-success btn-pill"
+          data-dismiss="modal"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          id="confirmDelete"
+          class="btn btn-danger btn-pill"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  Uploading File  -->
+<div
+  class="modal fade"
+  id="upload_modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <span class="mdi mdi-upload text-success"></span> Upload File
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form id="uploadForm" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+          {% csrf_token %}
+          <input type="hidden" id="research-input" name="research_id" />
+          <div class="mb-3">
+            <label for="formFile" class="form-label"
+              >Please select File to upload</label
+            >
+            <input
+              class="form-control"
+              type="file"
+              id="formFile"
+              name="Document_File"
+              accept=".pdf, .docx"
+            />
+          </div>
+          <p id="file-error" class="text-warning fs-7"></p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-pill"
+            data-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            id="confirmDelete"
+            class="btn btn-success btn-pill"
+          >
+            Upload
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- script for file upload validation -->
+<script src="{%static 'js/file_upload_validation.js'%}" defer></script>
+
+<!-- script for delete file -->
+<script src="{%static 'js/delete_file.js'%}" defer></script>
+
+<!-- script for passing the research id to the data attribute of research ID input -->
+<script src="{%static 'js/upload_file.js'%}" defer></script>
+
+
+{% endblock%} 

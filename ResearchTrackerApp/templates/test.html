@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* container */
+      .step-wizard-list {
+        list-style-type: none;
+        border-radius: 7px;
+        display: flex;
+        padding: 20px 10px;
+        position: relative;
+      }
+
+      /* item */
+      .step-wizard-item {
+        padding: 0 20px;
+        flex-basis: 0;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        min-width: 170px;
+        position: relative;
+      }
+      /* connector line */
+      .step-wizard-item + .step-wizard-item:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 19px;
+        background-color: #0acb8e;
+        width: 100%;
+        height: 3px;
+        transform: translateX(-50%);
+        /* z-index: -10; */
+      }
+      /* circle */
+      .progress-count {
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: 600;
+        margin: 0 auto;
+        position: relative;
+        z-index: 10;
+        color: transparent;
+        /* background-color: violet; */
+      }
+      .progress-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+      .current-item .progress-count:before,
+      .current-item ~ .step-wizard-item .progress-count:before {
+        display: none;
+      }
+      .current-item ~ .step-wizard-item .progress-count:after {
+        height: 10px;
+        width: 10px;
+      }
+      .progress-label {
+        opacity: 0.5;
+      }
+      .active {
+        opacity: 1;
+      }
+
+      .ongoing-item {
+        background-color: #fd5190;
+        color: #fff;
+      }
+
+      .active-item {
+        background-color: #0acb8e;
+        color: #fff;
+      }
+
+      .presented-item {
+        background-color: #9e6de0;
+        color: #fff;
+      }
+
+      .published-item {
+        background-color: #04c7e0;
+        color: #fff;
+      }
+      .bg-outline-success {
+        border: 2px solid #0acb8e;
+        background-color: white;
+      }
+
+      .text-success {
+        color: #0acb8e !important;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="step-wizard-list">
+      <li class="step-wizard-item">
+        <div
+          id="ongoing"
+          class="progress-count bg-outline-success text-success"
+        >
+          <span class="mdi mdi-sync"></span>
+          <!-- icon ni boss -->
+        </div>
+        <span id="ongoing-label" class="progress-label">On-going</span>
+      </li>
+      <li class="step-wizard-item">
+        <div
+          id="conducted"
+          class="progress-count bg-outline-success text-success"
+        >
+          <span class="mdi mdi-trophy"></span>
+        </div>
+        <span id="conducted-label" class="progress-label">Conducted</span>
+      </li>
+      <li class="step-wizard-item">
+        <divv
+          id="presented"
+          class="progress-count bg-outline-success text-success"
+          ><span class="mdi mdi-presentation"></span
+        ></divv>
+        <span id="presented-label" class="progress-label">Presented</span>
+      </li>
+      <li class="step-wizard-item">
+        <div
+          id="published"
+          class="progress-count bg-outline-success text-success"
+        >
+          <span class="mdi mdi-earth"></span>
+        </div>
+        <span id="published-label" class="progress-label">Published</span>
+      </li>
+    </ul>
+
+    <!-- script for progress track -->
+    <script>
+    //   const research_status = document.querySelector("#research-status").value;
+        const research_status = "Conducted" // e change ni sa inyo data from back end 
+      const progressItems = ["ongoing", "conducted", "presented", "published"]; //e change ne boss sa inyo status
+
+      for (const item of progressItems) {
+        const element = document.querySelector(`#${item}`);
+        const label = document.querySelector(`#${item}-label`);
+
+        element.classList.remove("bg-outline-success", "text-success");
+        element.classList.add("active-item");
+        label.classList.remove("progress-label");
+        label.classList.add("active");
+        if (research_status === item.charAt(0).toUpperCase() + item.slice(1)) {
+          break;
+        }
+      }
+    </script>
+  </body>
+</html>

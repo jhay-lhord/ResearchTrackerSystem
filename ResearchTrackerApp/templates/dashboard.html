@@ -1,0 +1,746 @@
+{%extends 'index.html'%} {% load static%} {% block title%} Research Tracker |
+Dashboard {% endblock %}
+
+<!-- Content  -->
+{% block content%}
+
+<div class="row">
+ 
+  <!-- First box -->
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-default py-4 shadow">
+      <div class="d-flex p-5 justify-content-between">
+        <div class="icon-md bg-secondary rounded-circle mr-3">
+          <i class="mdi mdi-sync"></i>
+        </div>
+        <a class="text-gray-dark" href="{% url 'ongoing'%}">
+        <div class="text-right">
+          <span
+            class="h2 d-block text-success"
+            id="research_ongoing_count"
+          >
+            {{research_data_as_of_today.research_ongoing_count}}</span
+          >
+          <p class="">Ongoing</p>
+        </div>
+      </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second box -->
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-default py-4 shadow">
+      <div class="d-flex p-5 justify-content-between">
+        <div class="icon-md bg-success rounded-circle mr-3">
+          <i class="mdi mdi-trophy"></i>
+        </div>
+        <a class="text-gray-dark" href="{% url 'conducted'%}">
+          <div class="text-right">
+            <span
+              class="h2 d-block text-success"
+              id="research_conducted_count"
+            >
+              {{research_data_as_of_today.research_conducted_count}}</span
+            >
+            <p class="">Conducted</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Third box -->
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-default py-4 shadow">
+      <div class="d-flex p-5 justify-content-between">
+        <div class="icon-md bg-primary rounded-circle mr-3">
+          <i class="mdi mdi-presentation"></i>
+        </div>
+        <a class="text-gray-dark" href="{% url 'presented'%}">
+          <div class="text-right">
+            <span
+              class="h2 d-block text-success"
+              id="research_presented_count"
+            >
+              {{research_data_as_of_today.research_presented_count}}</span
+            >
+            <p class="">Presented</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fourth box -->
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-default py-4 shadow">
+      <div class="d-flex p-5 justify-content-between">
+        <div class="icon-md bg-info rounded-circle mr-3">
+          <i class="mdi mdi-earth"></i>
+        </div>
+        <a class="text-gray-dark" href="{% url 'published'%}">
+          <div class="text-right">
+            <span
+              class="h2 d-block text-success"
+              id="research_published_count"
+            >
+              {{research_data_as_of_today.research_published_count}}</span
+            >
+            <p class="">Published</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-6">
+  <div class="col-xl-8">
+    <!-- Income and Express -->
+    <div class="card card-default shadow h-100">
+      <div class="card-header">
+        <h2>A Month Overview of Research</h2>
+        <div class="dropdown">
+          <a
+            class="dropdown-toggle icon-burger-mini"
+            href="#"
+            role="button"
+            id="dropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            data-display="static"
+          >
+          </a>
+
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            aria-labelledby="dropdownMenuLink"
+          >
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrapper">
+          <div id="mixed-chart-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4">
+    <!-- Current Users  -->
+    <div class="card card-default shadow h-100">
+      <div class="card-header">
+        <h2>Current Researches</h2>
+        <p class="fw-bold text-success h2">{{research_data_as_of_today.total_research_count}}</p>
+      </div>
+      <div class="card-body">
+        <div id="donut-chart-1"></div>
+        <div class="d-flex align-items-center justify-content-around mt-4">
+          <div class="d-flex flex-column">
+            <span class="h5"
+              ><i class="mdi mdi-circle text-secondary"></i>Ongoing</span
+            >
+            <span class="h5"
+              ><i class="mdi mdi-circle text-primary"></i>Presented</span
+            >
+          </div>
+          <div class="d-flex flex-column">
+            <span class="h5"
+              ><i class="mdi mdi-circle text-success"></i>Conducted</span
+            >
+            <span class="h5"
+              ><i class="mdi mdi-circle text-info"></i>Published</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card card-default shadow">
+      <div class="card-header align-items-center">
+        <h2 class="fw-bold">Recently Added</h2>
+        <button
+          type="button"
+          class="btn btn-success btn-pill"
+          data-toggle="modal"
+          data-target="#modal-add-research"
+        >
+        <span class="mdi mdi-plus"></span>
+          Add Research
+        </button>
+      </div>
+      <div class="card-body table table-responsive">
+        <table
+          id="researchTable"
+          class="table table-hover table-product"
+          style="width: 100%"
+        >
+          <thead style="width: 100%">
+            <tr>
+              <th>Research ID</th>
+              <th>research Title</th>
+              <th>Author</th>
+              <th>Status</th>
+              <th>Date Updated</th>
+              <th>Action</th>
+              <th>File</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for recent in recent_result %}
+            <tr>
+              <td class="fs-7">{{recent.Research_ID}}</td>
+              <td class="fs-7">{{recent.Research_Title}}</td>
+              <td class="fs-7">{{recent.Author}}</td>
+              <td class="fs-7 {{ recent.Status }}">{{recent.Status}}</td>
+              <td class="fs-7">{{recent.updated_at}}</td>
+              <td class="fs-7">
+                <a href="{{recent.updateUrl}}">
+                  <button type="button" class="btn btn-success btn-pill btn-sm">
+                    View
+                  </button>
+                </a>
+              </td>
+              <td class="fs-7">
+                {% if not recent.Document_File%}
+                <a href="#">
+                <button
+                  data-research-id="{{recent.Research_ID}}"
+                  data-toggle="modal"
+                  data-target="#upload_modal"
+                  type="button"
+                  class="btn btn-smoke btn-pill btn-sm"
+                  id="upload-btn"
+                >
+                  Upload
+                </button>
+                </a>
+                {% else %}
+                <a href="#" class="delete-research-link">
+                <button
+                  data-research-id="{{recent.Research_ID}}"
+                  data-toggle="modal"
+                  data-target="#delete_modal"
+                  type="button"
+                  class="btn btn-outline-danger btn-pill btn-sm delete-research-link"
+                >
+                  Delete
+                </button>
+                </a>
+                {% endif %}
+              </td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add New Research Modal -->
+<div
+  class="modal fade"
+  id="modal-add-research"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg modal-fullscreen-sm-down"
+    role="document"
+  >
+    <div class="modal-content modal-dialog-scrollable">
+      <div class="modal-header px-6">
+        <h4 class="modal-title" id="exampleModalCenterTitle">
+          Add New Research
+        </h4>
+      </div>
+
+      <div class="modal-body px-6">
+        <form method="POST" enctype="multipart/form-data">
+          <div class="row mb-2">
+            {% csrf_token %}
+            <div class="col-12">
+              <label for="researchTitle" class="form-label fw-semibold"
+                >Research Title</label
+              >
+              <!-- <input type="text" class="form-control" id="researchTitle" placeholder="Research Tracker System"> -->
+              {{form.Research_Title}}
+            </div>
+            <div class="col-md-6">
+              <label for="researchStatus" class="form-label fw-semibold"
+                >College</label
+              >
+              {{form.College}}
+            </div>
+            <div class="col-md-6">
+              <label for="current-year" class="form-label fw-semibold"
+                >Year</label
+              >
+              <!-- <input id="current-year" type="text" class="form-control"> -->
+              {{form.Year}}
+            </div>
+            <div class="col-md-6">
+              <label for="dateEnded" class="form-label fw-semibold"
+                >Date Started</label
+              >
+              {{form.Date_Started}}
+            </div>
+            <div class="col-md-6">
+              <label for="dateStarted" class="form-label fw-semibold"
+                >Date Ended</label
+              >
+              {{form.Date_Ended}}
+            </div>
+            <div class="col-12">
+              <label for="research_status" class="form-label fw-semibold"
+                >Status</label
+              >
+              {{form.Status}}
+            </div>
+            <div class="col-12 hide-field" id="dateOngoing">
+              <label for="dateOngoing" class="form-label fw-semibold"
+                >Date On-going</label
+              >
+              {{form.Date_Ongoing}}
+            </div>
+            <div class="col-12 hide-field" id="dateConducted">
+              <label for="dateConducted" class="form-label fw-semibold"
+                >Date Conducted</label
+              >
+              {{form.Date_Conducted}}
+            </div>
+            <div class="col-12 hide-field" id="datePresented">
+              <label for="datePresented" class="form-label fw-semibold"
+                >Date Presented</label
+              >
+              {{form.Date_Presented}}
+            </div>
+
+            <div class="col-md-2 hide-field" id="ispnNo">
+              <label for="" class="form-label fw-semibold">ISPN No.</label>
+              {{form.ispnNo}}
+            </div>
+
+            <div class="col-md-6 hide-field" id="publisherName">
+              <label for="" class="form-label fw-semibold"
+                >Publisher Name</label
+              >
+              {{form.Publisher_Name}}
+            </div>
+
+            <div class="col-md-4 hide-field" id="datePublished">
+              <label for="datePublished" class="form-label fw-semibold"
+                >Date Published</label
+              >
+              {{form.Date_Published}}
+            </div>
+
+            <div class="col-md-6 hide-field" id="journalType">
+              <label for="" class="form-label fw-semibold"
+                >Type of Journal</label
+              >
+              {{form.Journal_Type}}
+            </div>
+
+            <div class="col-md-6 hide-field" id="journalIndex">
+              <label for="" class="form-label fw-semibold">Journal Index</label>
+              {{form.Journal_Index}}
+            </div>
+
+            <div class="col-12">
+              <label for="author" class="form-label fw-semibold">Author</label>
+              {{form.Author}}
+            </div>
+            <div class="col-12">
+              <label for="fileUpload" class="form-label fw-semibold"
+                >Upload File</label
+              >
+              {{form.Document_File}}
+            </div>
+          </div>
+          <div class="modal-footer px-4">
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-pill"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-success btn-pill">
+              Save Research
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- deleting modal -->
+<div
+  class="modal fade"
+  id="delete_modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <span class="mdi mdi-alert-circle text-danger"></span> Confirm
+          Deletion
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this file?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-success btn-pill"
+          data-dismiss="modal"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          id="confirmDelete"
+          class="btn btn-danger btn-pill"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  Uploading File  -->
+<div
+  class="modal fade"
+  id="upload_modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <span class="mdi mdi-upload text-success"></span> Upload File
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form id="uploadForm" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+          {% csrf_token %}
+          <input type="hidden" id="research-input" name="research_id" />
+          <div class="mb-3">
+            <label for="formFile" class="form-label"
+              >Please select File to upload</label
+            >
+            <input
+              class="form-control"
+              type="file"
+              id="formFile"
+              name="Document_File"
+              accept=".pdf, .docx"
+            />
+          </div>
+          <p id="file-error" class="text-warning fs-7"></p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-pill"
+            data-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            id="confirmDelete"
+            class="btn btn-success btn-pill"
+          >
+            Upload
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'plugins/apexcharts/apexcharts.js'%}"></script>
+
+<!-- bar chart -->
+<script>
+  // fetch data from back end
+  const research_data = JSON.parse("{{research_data_json|escapejs}}");
+  const mixedChart1 = document.querySelector("#mixed-chart-1");
+
+  const labelss = research_data.labels.reverse();
+
+  if (mixedChart1 !== null) {
+    var mixedOptions1 = {
+      chart: {
+        height: 370,
+        type: "bar",
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: ["#fd5190", "#0acb8e", "#9e6de0", "#04c7e0"],
+      legend: {
+        show: true,
+        position: "top",
+        horizontalAlign: "right",
+        markers: {
+          width: 20,
+          height: 5,
+          radius: 0,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "50%",
+          barHeight: "10%",
+          distributed: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+
+      stroke: {
+        show: true,
+        width: 2,
+        curve: "smooth",
+      },
+
+      series: [
+        {
+          name: "On-Going",
+          type: "column",
+          data: research_data.ongoing,
+        },
+        {
+          name: "Conducted",
+          type: "column",
+          data: research_data.conducted,
+        },
+        {
+          name: "Presented",
+          data: research_data.presented,
+          type: "column",
+        },
+        {
+          name: "Published",
+          data: research_data.published,
+          type: "column",
+        },
+      ],
+
+      xaxis: {
+        categories: labelss,
+
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        crosshairs: {
+          width: 40,
+        },
+      },
+
+      fill: {
+        opacity: 1,
+      },
+      yaxis: {
+        forceNiceScale: false, 
+        labels: {
+          formatter: function (value) {
+            return Math.round(value); 
+          },
+        },
+        
+      },
+
+      tooltip: {
+        shared: true,
+        intersect: false,
+        followCursor: true,
+        fixed: {
+          enabled: false,
+        },
+        x: {
+          show: false,
+        },
+        y: {
+          title: {
+            formatter: function (seriesName) {
+              return seriesName;
+            },
+          },
+        },
+      },
+    };
+
+    var randerMixedChart1 = new ApexCharts(mixedChart1, mixedOptions1);
+    randerMixedChart1.render();
+  }
+</script>
+
+<!-- donut chart -->
+<script>
+  const ongoing_count = Number(
+    document.querySelector("#research_ongoing_count").textContent
+  );
+  const conducted_count = Number(
+    document.querySelector("#research_conducted_count").textContent
+  );
+  const presented_count = Number(
+    document.querySelector("#research_presented_count").textContent
+  );
+  const published_count = Number(
+    document.querySelector("#research_published_count").textContent
+  );
+
+  const donutChart1 = document.querySelector("#donut-chart-1");
+  if (donutChart1 !== null) {
+    var donutChartOptions1 = {
+      chart: {
+        type: "donut",
+        height: 270,
+      },
+
+      colors: ["#fd5190", "#0acb8e", "#9e6de0", "#04c7e0"],
+      labels: ["On-Going", "Conducted", "Presented", "Published"],
+      series: [
+        ongoing_count,
+        conducted_count,
+        presented_count,
+        published_count,
+      ],
+      legend: {
+        show: false,
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      tooltip: {
+        y: {
+          formatter: function (val) {
+            return +val + "";
+          },
+        },
+      },
+    };
+
+    var randerDonutchart1 = new ApexCharts(donutChart1, donutChartOptions1);
+
+    randerDonutchart1.render();
+  }
+</script>
+
+<script>
+  document
+    .getElementById("id_Document_File")
+    .addEventListener("change", function () {
+      const input = this;
+      const acceptedExtensions = [".pdf", ".docx"];
+
+      if (input.files && input.files.length > 0) {
+        const selectedFiles = [...input.files];
+        const validFiles = selectedFiles.filter((file) => {
+          const fileExtension = file.name
+            .toLowerCase()
+            .slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2);
+          return acceptedExtensions.includes("." + fileExtension);
+        });
+
+        if (validFiles.length < selectedFiles.length) {
+          input.value = null; // Clear the input if invalid files were selected
+          alert("Please select only .pdf and .docx files.");
+        }
+      }
+    });
+</script>
+
+
+<script src="{% static 'js/show_hide_date.js'%}"></script>
+<script src="{%static 'js/delete_file.js'%}" defer></script>
+<script src="{%static 'js/upload_file.js'%}" defer></script>
+<script src="{%static 'js/file_upload_validation.js'%}" defer></script>
+
+
+{% endblock%} 
+
+{% block script%}
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  -->
+<script src="{% static 'chartjs/chart.min.js'%}"></script>
+
+<!-- Validation for uploading files that only accept .docx and .pdf file -->
+<script>
+  document
+    .getElementById("id_Document_File")
+    .addEventListener("change", function () {
+      const input = this;
+      const acceptedExtensions = [".pdf", ".docx"];
+
+      if (input.files && input.files.length > 0) {
+        const selectedFiles = [...input.files];
+        const validFiles = selectedFiles.filter((file) => {
+          const fileExtension = file.name
+            .toLowerCase()
+            .slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2);
+          return acceptedExtensions.includes("." + fileExtension);
+        });
+
+        if (validFiles.length < selectedFiles.length) {
+          input.value = null; // Clear the input if invalid files were selected
+          alert("Please select only .pdf and .docx files.");
+        }
+      }
+    });
+</script>
+
+<!-- script for file upload validation -->
+<script src="{%static 'js/file_upload_validation.js'%}" defer></script>
+<!-- bootstrap -->
+<script src="{% static 'bootstrap/bootstrap.min.js'%}"></script>
+
+{% endblock%}

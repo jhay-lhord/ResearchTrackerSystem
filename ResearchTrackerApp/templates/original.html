@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {%load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Research Tracker | Dashboard</title>
+    <link rel="stylesheet" href="{%static 'css/dashboard.css'%}" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{%static 'images/ctu-logo.ico'%}"
+    />
+
+
+    
+  </head>
+  <body>
+    <section class="content">
+      <aside class="sidebar">
+        <section class="user">
+          <div class="user-information">
+            <h2>Hello Jaylord Manila</h2>
+            <h3>Administrator</h3>
+          </div>
+          <div class="user-pic">
+            <img src="{%static 'images/user-pic.png'%}" alt="" />
+          </div>
+        </section>
+        <section>
+          <div class="navigation">
+            <div class="navigation-item dark-text border-radius-5">
+              <div class="navigation-icon">
+                <img src="{%static 'images/dashboard (1).png'%}" alt="" />
+              </div>
+              <h3 class="text-style dark-text">Dashboard</h3>
+            </div>
+            <div
+              id="add-research"
+              class="navigation-item dark-text border-radius-5"
+            >
+              <div class="navigation-icon">
+                <img src="{%static 'images/add (1).png'%}" alt="" />
+              </div>
+              <h3 class="text-style dark-text">Add</h3>
+            </div>
+            <div class="navigation-item dark-text border-radius-5">
+              <div class="navigation-icon">
+                <img src="{%static 'images/edit (1).png'%}" alt="" />
+              </div>
+              <h3 class="text-style dark-text">Update</h3>
+            </div>
+            <div class="navigation-item dark-text border-radius-5">
+              <div class="navigation-icon">
+                <img src="{%static 'images/delete (1).png'%}" alt="" />
+              </div>
+              <h3>Delete</h3>
+            </div>
+            <div class="navigation-item border-radius-5">
+              <div class="navigation-icon">
+                <img src="{%static 'images/clock.png'%}" alt="" />
+              </div>
+              <h3>Recent</h3>
+            </div>
+            <div class="navigation-item border-radius-5">
+              <div class="navigation-icon">
+                <img src="{%static 'images/analytics (1).png'%}" alt="" />
+              </div>
+              <h3>Reports</h3>
+            </div>
+          </div>
+        </section>
+        <section class="ctu-information">
+          <div class="ctu-logo">
+            <img src="{%static 'images/ctu-logo.png'%}" alt="" />
+          </div>
+          <div class="ctu-text">
+            <h3>Cebu Technological University</h3>
+            <h4>Argao Campus</h4>
+          </div>
+        </section>
+      </aside>
+      <section class="dashboard-container">
+        <div class="search-sticky">
+          <div class="search-container">
+            <div class="search">
+              <div class="search-input">
+                <div class="search-icon">
+                  <img src="{%static 'images/search.png'%}" alt="" />
+                </div>
+                <input type="text" placeholder="What you're looking for?" />
+              </div>
+              <div class="search-button">
+                <button>Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard">
+          <div class="research research-presented">
+            <div class="icon">
+              <img src="{%static 'images/presented.png'%}" alt="" />
+            </div>
+            <div class="research-text">
+              <h3>Research Presented</h3>
+              <div>
+                <p id="research_presented_count" class="total">
+                  {{research_data_as_of_today.research_presented_count}}
+                </p>
+                <div>
+                  <a href="#"
+                    ><img src="{%static 'images/next.png '%}" alt=""
+                  /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="research research-ongoing">
+            <div class="icon">
+              <img src="{%static 'images/ongoing.png'%}" alt="" />
+            </div>
+            <div class="research-text">
+              <h3>Research On-Going</h3>
+              <div>
+                <p id="research_ongoing_count" class="total">
+                  {{research_data_as_of_today.research_ongoing_count}}
+                </p>
+                <div>
+                  <a href="#"
+                    ><img src="{%static 'images/next.png '%}" alt=""
+                  /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="research research-conducted">
+            <div class="icon">
+              <img src="{%static 'images/conducted.png'%}" alt="" />
+            </div>
+            <div class="research-text">
+              <h3>Research Conducted</h3>
+              <div>
+                <p id="research_conducted_count" class="total">
+                  {{research_data_as_of_today.research_conducted_count}}
+                </p>
+                <div>
+                  <a href="#"
+                    ><img src="{%static 'images/next.png '%}" alt=""
+                  /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="research research-published">
+            <div class="icon">
+              <img src="{%static 'images/published.png'%}" alt="" />
+            </div>
+            <div class="research-text">
+              <h3>Research Published</h3>
+              <div>
+                <p id="research_published_count" class="total">
+                  {{research_data_as_of_today.research_published_count}}
+                </p>
+                <div>
+                  <a href="#"
+                    ><img src="{%static 'images/next.png '%}" alt=""
+                  /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="research analytics analytics-bar-graph">
+            <canvas id="analytics-bar-graph"></canvas>
+          </div>
+          <div class="research analytics analytics-donut-graph">
+            <canvas id="analytics-doughnut-graph"></canvas>
+            <div class="research-text total-research">
+              <h3>Total Research</h3>
+              <div>
+                <p id="research_conducted_count" class="total">
+                  {{research_data_as_of_today.total_research_count}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="recently-added">
+      <h3>Recently Added</h3>
+      <div class="recent-added" id="recent-added">
+        <!-- Research Data from Back end  -->
+      </div>
+    </section>
+
+    <section>
+      <div class="form-modal">
+        <div class="close">
+          <img src="{%static 'images/close.png'%}" alt="" />
+        </div>
+        <h2>Add Research Information</h2>
+        <div class="form-container">
+          <form
+            class="form"
+            action=""
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token%}
+
+            <div class="first-column">
+              <label for="">Research Title</label>
+              {{form.Research_Title}}
+            </div>
+
+            <div class="second-column">
+              <div>
+                <label for="">College</label>
+                {{form.College}}
+              </div>
+              <div>
+                <label for="">Year</label>
+                {{form.Year}}
+              </div>
+            </div>
+
+            <div class="third-column">
+              <div>
+                <label for="">Date Started</label>
+                {{form.Date_Started}}
+              </div>
+              <div>
+                <label for="">Date Ended</label>
+                {{form.Date_Ended}}
+              </div>
+            </div>
+
+            <div class="fourth-column">
+              <label for="">Status</label>
+              {{form.Status}}
+            </div>
+
+            <div class="fifth-column">
+              <div>
+                <label for="">Date Presented</label>
+                {{form.Date_Presented}}
+              </div>
+
+              <div>
+                <label for="">Date Published</label>
+                {{form.Date_Published}}
+              </div>
+            </div>
+
+            <div class="sixth-column">
+              <label for="">Author</label>
+              {{form.Author}}
+            </div>
+
+            <div class="seventh-column">
+              <label for="">File</label>
+              {{form.Document_File}}
+            </div>
+
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+      </div>
+      <div class="opacity"></div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Recently Added  -->
+    <script type="module">
+      const all_research_data_json = JSON.parse(
+        "{{all_research_data_json|escapejs}}"
+      );
+      console.log(all_research_data_json);
+      console.log("hahahah");
+
+      let tableData = "";
+      const container = document.getElementById("recent-added");
+
+      all_research_data_json.forEach((research) => {
+        console.log(research.Research_ID);
+
+        tableData += `
+        <tr>
+            <td>${research.Research_ID}</td>
+            <td>${research.Research_Title}</td>
+            <td>${research.Author}</td>
+            <td>${research.Status}</td>
+            <td>${research.created_at}</td>
+        </tr>
+    `;
+      });
+      const table = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Research ID</th>
+                    <th>Research Title</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${tableData}
+            </tbody>
+        </table>
+`;
+      container.innerHTML = table;
+      console.log(all_research_data_json.Author);
+    </script>
+
+    <!-- Bar Chart -->
+    <script>
+      // fetch data from back end
+      const research = JSON.parse("{{research_data_json|escapejs}}");
+      console.log(research);
+      console.log(research.labels);
+      console.log(research.presented);
+
+      const analytics_bar_chart = document.getElementById(
+        "analytics-bar-graph"
+      );
+
+      const labels = research.labels.reverse();
+      Chart.defaults.color = "#F5F5F5";
+
+      // Chart for Bar Graph
+      new Chart(analytics_bar_chart, {
+        type: "bar",
+        data: {
+          labels: labels,
+          //   labels: labels,
+          datasets: [
+            {
+              label: "Presented",
+              data: research.presented,
+              backgroundColor: ["rgba(255, 99, 132, .8)"],
+              borderWidth: 1,
+            },
+            {
+              label: "Conducted",
+              data: research.conducted,
+              backgroundColor: ["rgba(54, 162, 235, .8)"],
+              borderWidth: 1,
+            },
+            {
+              label: "On-Going",
+              data: research.ongoing,
+              backgroundColor: ["rgba(255, 205, 86, .8)"],
+              borderWidth: 1,
+            },
+            {
+              label: "Published",
+              data: research.published,
+              backgroundColor: ["rgba(78, 267, 24, .8)"],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: true,
+              position: "top",
+              labels: {
+                boxWidth: 10,
+                color: "#F5F5F5",
+              },
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    </script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel@1.0.0/dist/chartjs-plugin-doughnutlabel.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script> -->
+
+    <!-- Doughnut Chart -->
+    <script
+      type="text/javascript"
+      src="{%static 'js/doughnut_graph_analytics.js'%}"
+    ></script>
+    <!-- <script type="text/javascript" src="{%static 'js/bar_graph_analytics.js'%}"></script> -->
+    <script src="{%static 'js/form-modal.js'%}"></script>
+  </body>
+</html>
