@@ -1,7 +1,7 @@
 services:
   web:
     build: .
-    command: gunicorn ResearchTrackerSystem.wsgi:application --bind 0.0.0.0:8000
+    command: ["sh", "-c", "python create_superuser.py && gunicorn myproject.wsgi:application --bind 0.0.0.0:8000"]
     ports:
       - "8000:8000"
     env_file:
