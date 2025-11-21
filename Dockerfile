@@ -26,9 +26,9 @@ RUN pip install -r requirements.txt
 # Copy project code
 COPY . /code/
 
-# Expose port
-EXPOSE 8000
+# Run collectstatic (IMPORTANT)
+RUN python manage.py collectstatic --noinput
 
-# Run Django server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Gunicorn for production
+CMD ["gunicorn", "ResearchTrackerSystem.wsgi:application", "--bind", "0.0.0.0:8000"]
 
