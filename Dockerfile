@@ -26,8 +26,6 @@ RUN pip install -r requirements.txt
 # Copy project code
 COPY . /code/
 
-COPY .env /code/
-
 # Expose port
 EXPOSE 8000
 
