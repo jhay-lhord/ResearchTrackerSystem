@@ -27,7 +27,7 @@ class Research(models.Model):
     Journal_Type = models.CharField(max_length=255, null=True, blank=True)
     Journal_Index = models.CharField(max_length=255, null=True, blank=True)
     Author = models.CharField(max_length=255)
-    Document_File = models.FileField(upload_to = 'documents/')
+    Document_File = models.FileField(upload_to = 'tmp/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, null=True)
 
